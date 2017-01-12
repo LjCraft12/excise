@@ -1,4 +1,4 @@
-angular.module('appRoutes', ['ngRoute'])
+var app = angular.module('appRoutes', ['ngRoute'])
 
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider
@@ -11,19 +11,23 @@ angular.module('appRoutes', ['ngRoute'])
             .when('/register', {
                 templateUrl: 'app/views/templates/users/register.html',
                 controller: 'regCtrl',
-                controllerAs: 'register'
+                controllerAs: 'register',
+                authenticated: false
             })
 
             .when('/sign', {
-                templateUrl: 'app/views/templates/users/signin.html'
+                templateUrl: 'app/views/templates/users/signin.html',
+                authenticated: false
             })
 
             .when('/profile', {
-                templateUrl: 'app/views/templates/users/profile.html'
+                templateUrl: 'app/views/templates/users/profile.html',
+                authenticated: true
             })
 
             .when('/logout', {
-                templateUrl: 'app/views/templates/users/logout.html'
+                templateUrl: 'app/views/templates/users/logout.html',
+                authenticated: true
             })
 
             .otherwise({redirectTo: '/'});
@@ -35,4 +39,19 @@ angular.module('appRoutes', ['ngRoute'])
 
     });
 
-console.log('angular routes is here');
+app.run(['$rootScope', 'Auth', '$location', function ($rootScope, Auth, $location) {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        if (next.$$route.authenticated == true){
+           if (!Auth.isLoggedIn()){
+               event.preventDefault();                              //If they are not logged and and authentication is required send them back to the home page
+               $location.path('/');
+           }
+        }else if (!next.$$route.authenticated == false){
+            if (Auth.isLoggedIn()) {
+                event.preventDefault();
+                $location.path('/profile');
+            }
+        }
+    });
+}]);
+
