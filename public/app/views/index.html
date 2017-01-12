@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <title>Exciser</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Cascade Style Sheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Main Angular Files -->
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-route.min.js"></script>
+    <script src="assets/js/angular-animate.js" ></script>
+
+    <!-- Angular Controllers -->
+    <script src="app/app.js"></script>
+    <script src="app/route.js"></script>
+
+    <!-- Controllers -->
+    <script src="app/controllers/userCtrl.js"></script>
+    <script src="app/controllers/mainCtrl.js" ></script>
+
+    <!-- Services -->
+    <script src="app/services/userServices.js"></script>
+    <script src="app/services/authServices.js"></script>
+
+</head>
+
+<body ng-app="excise" ng-controller="mainCtrl as main" ng-show="main.loadMe" ng-cloak`>
+
+<nav class="navbar navbar-light bg-faded">
+    <div class="container">
+        <a class="navbar-brand" href="/">Exciser</a>
+        <ul class="nav navbar-nav float-xs-right">
+            <li class="nav-item">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/" ng-hide="main.username">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register" ng-hide="main.username">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/sign" ng-hide="main.username">Sign In</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" ng-click="main.logout()" ng-show="main.username">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/profile" ng-show="main.username"><strong>{{ main.username}}'s Profile</strong></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<main ng-view=""></main>
+
+</body>
+</html>
